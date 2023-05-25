@@ -12,12 +12,13 @@ import axios from 'axios';
 
 const BASE_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = 'b3cb1db782e55dafd1da39b95bd6f5f2';
+
 //https://api.themoviedb.org/3/movie/550?api_key=b3cb1db782e55dafd1da39b95bd6f5f2
-const instance = axios.create({
+/* const instance = axios.create({
   //TODO:
   baseURL: BASE_URL,
   timeout: 2000,
-});
+}); */
 
 /* const SEARCH_PARAMS = {
   key: `${MY_KEY}`,

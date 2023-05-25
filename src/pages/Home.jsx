@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
-//import PropTypes from 'prop-types';
 import api from 'service/fetchTheMovieDb';
-import {Err} from './styled';
+import MovieList from 'components/moviesList/MoviesList';
+import styled from 'styled-components';
 
+export const Err = styled.p`
+  margin-top: 38px;
+  margin-left: auto;
+  margin-right: auto;
+  color: red;
+  font-size: 24px;
+  font-weight: 700;
+`;
 
 const STATUS = {
   IDLE: 'idle',
@@ -30,27 +38,17 @@ export const Home = () => {
       setMovies([]);
   })
   }, []);
-  if (status === STATUS.RESOLVED) {
+/*   if (status === STATUS.RESOLVED) {
     movies.map(({ title, id }) => {
       console.log(title);
     });
     console.log('status', status, status !== status.RESOLVED);
-}
+} */
   return (
     <main>
       <h1>Trending today</h1>
       {status === STATUS.REJECTED && <Err>{error.message}</Err>}
-      {status !== status.RESOLVED && (
-        <ul>
-          {movies.map(({ title, id }) => {
-            return (
-              <li key={id}>
-                <span>{title}</span>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      {status !== status.RESOLVED && <MovieList movies={movies} />}
       {status === STATUS.PENDING && <div>Loading... TODO:</div>}
     </main>
   );
