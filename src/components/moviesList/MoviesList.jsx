@@ -1,15 +1,15 @@
-//import styled from 'styled-components';
 import PropTypes from 'prop-types';
-
-const MovieList = ({movies}) => {
-console.log('', typeof movies, movies);
+import { Link } from 'react-router-dom';
+//location TODO: state={{from:{location}}}
+const MovieList = ({ movies }) => {
+  
   return (
     <ul>
       {movies.map(({ title, id }) => {
         return (
-          <li key={id}>
-            <span>{title}</span>
-          </li>
+          <Link key={id} to={`${id}`} >
+            <div>{title}</div>
+          </Link>
         );
       })}
     </ul>
@@ -22,6 +22,7 @@ MovieList.propTypes = {
   movies: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired
-  }))
+  })),
+//TODO:  location: PropTypes.shape
 }
 

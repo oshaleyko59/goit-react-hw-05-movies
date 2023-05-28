@@ -19,5 +19,5 @@ const SharedLayout = () => {
 export default SharedLayout;
 /*
       <Suspense fallback={<div>Loading page...</div>}>
-        <Outlet />
+        <Outl et />
       </Suspense>  */
