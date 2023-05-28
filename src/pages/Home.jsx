@@ -9,17 +9,16 @@ const Home = () => {
   //to use for render
   const [status, setStatus] = useState(STATUS.IDLE);
   const [movies, setMovies] = useState([]);
-  //for fetch error
   const [error, setError] = useState(null);
 
   const fetchData = useMemo(() => {
-    console.log('useMemo called', status);
+    //console.log('useMemo called', status);
     return () => {
-      console.log('fetchData called', status);
+     // console.log('fetchData called', status);
       if (status !== STATUS.IDLE) return;
 
       setStatus(STATUS.PENDING);
-      console.log('FETCHING...');
+      //console.log('FETCHING...');
       api
         .fetchTrendingMovies()
         .then(({ results }) => {
@@ -39,10 +38,10 @@ const Home = () => {
   }, [fetchData]);
 
     useEffect(() => {
-      console.log('Mounted...');
+     // console.log('Mounted...');
       return () => {
-        console.log('Unmounting...');
-        //api.abortFetch(); <div>{status}</div>
+        //   console.log('Unmounting...');
+        api.abortFetch();
       };
     }, []);
 
@@ -50,7 +49,7 @@ const Home = () => {
     <div>
       <h1>Trending today</h1>
       {status === STATUS.REJECTED && <Error msg={error.message} />}
-      {movies.length && <MovieList movies={movies} />}
+      {status === STATUS.RESOLVED && <MovieList movies={movies} />}
       {status === STATUS.PENDING && <Loading />}
     </div>
   );

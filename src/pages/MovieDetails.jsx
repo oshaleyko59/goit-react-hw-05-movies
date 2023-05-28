@@ -29,7 +29,7 @@ const MovieDetails = () => {
       });
 
     return () => {
-      console.log('Unmounting phase, aborting...');
+      //console.log('Unmounting phase, aborting...');
       api.abortFetch();
     };
   }, [id]);

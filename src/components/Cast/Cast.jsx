@@ -27,7 +27,7 @@ const Cast = () => {
       });
 
     return () => {
-      console.log('Unmounting phase, aborting...');
+     // console.log('Unmounting phase, aborting...');
       api.abortFetch();
     };
   }, [id]);
@@ -42,7 +42,13 @@ const Cast = () => {
             const imgUrl = `https://image.tmdb.org/t/p/w92${profile_path}`;
             return (
               <li key={id}>
-                <img src={imgUrl} alt={name} />
+                <div>
+                  {profile_path ? (
+                    <img src={imgUrl} alt={name} />
+                  ) : (
+                    <p>No photo</p>
+                  )}
+                </div>
                 <p>{name}</p>
                 <p>Character: {character}</p>
               </li>

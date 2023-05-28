@@ -28,9 +28,9 @@ const Movies = () => {
 
   const fetchData = useMemo(
     () => {
-      console.log('useMemo called', status);
+    //  console.log('useMemo called', status);
       return (() => {
-      console.log('fetchData called', status);
+    //  console.log('fetchData called', status);
       if (status !== STATUS.IDLE || query === '') return;
 
       setStatus(STATUS.PENDING);
@@ -55,10 +55,10 @@ const Movies = () => {
   }, [fetchData]);
 
   useEffect(() => {
-    console.log('Mounted...');
+    //console.log('Mounted...');
         return () => {
-          console.log('Unmounting...');
-          //api.abortFetch(); <div>{status}</div>
+       //   console.log('Unmounting...');
+          api.abortFetch();
         };
   }, []);
 
@@ -75,15 +75,3 @@ const Movies = () => {
 export default Movies;
 
 
-
-/*       {status === 'resolved' && <MovieList movies={movies} />}
-      <div>{status}</div> */
-
-
-/* useEffect(() => {
-  console.log('Mounting phase: same when componentDidMount runs');
-
-  return () => {
-    console.log('Unmounting phase: same when componentWillUnmount runs');
-  };
-}, []); */

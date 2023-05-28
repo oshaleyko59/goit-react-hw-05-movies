@@ -14,21 +14,19 @@ import axios from 'axios';
 const BASE_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = 'b3cb1db782e55dafd1da39b95bd6f5f2';
 
-const controller = new AbortController();
+let controller;
 
 function abortFetch() {
   if (controller) {
     controller.abort();
-    console.log('Fetch aborted');
-  } else {
-    console.log('Fetch abort called, no controller');
-  }
+  };
 }
 
 // /trending/get-trending
 async function fetchTrendingMovies() {
   try {
-    const url = `${BASE_URL}trending/movie/week?api_key=${API_KEY}&page=1`;
+    controller = new AbortController();
+    const url = `${BASE_URL}trending/movie/week?api_key=${API_KEY}&page=1&language=en-US`;
     const response = await axios.get(url, { signal: controller.signal });
     return response.data;
   } catch (error) {
@@ -38,6 +36,7 @@ async function fetchTrendingMovies() {
 
 async function fetchSearchMovies(searchQuery, page = 1) {
   try {
+    controller = new AbortController();
     const url = `${BASE_URL}/search/movie?api_key=${API_KEY}&language=en-US&page=${page}&query=${searchQuery}`;
     const response = await axios.get(url, { signal: controller.signal });
     return response.data;
@@ -49,6 +48,7 @@ async function fetchSearchMovies(searchQuery, page = 1) {
 // /movies/get-movie-details
 async function fetchMovieDetails(id) {
   try {
+    controller = new AbortController();
     const url = `${BASE_URL}movie/${id}?api_key=${API_KEY}&language=en-US`;
     const response = await axios.get(url, { signal: controller.signal });
     return response.data;
@@ -60,7 +60,8 @@ async function fetchMovieDetails(id) {
 // /movies/get-movie-credits
 async function fetchMovieCast(id) {
   try {
-    const url = `${BASE_URL}movie/${id}/credits?api_key=${API_KEY}`;
+    controller = new AbortController();
+    const url = `${BASE_URL}movie/${id}/credits?api_key=${API_KEY}&language=en-US`;
     const response = await axios.get(url, { signal: controller.signal });
     return response.data;
   } catch (error) {
@@ -71,7 +72,8 @@ async function fetchMovieCast(id) {
 // /movies/get-movie-reviews
 async function fetchMovieReviews(id) {
   try {
-    const url = `${BASE_URL}movie/${id}/reviews?api_key=${API_KEY}`;
+    controller = new AbortController();
+    const url = `${BASE_URL}movie/${id}/reviews?api_key=${API_KEY}&language=en-US`;
     const response = await axios.get(url, { signal: controller.signal });
     return response.data;
   } catch (error) {
