@@ -9,7 +9,6 @@ const Reviews = () => {
   const { id } = useParams();
   const [reviews, setReviews] = useState([]);
   const [status, setStatus] = useState(STATUS.IDLE);
-  //for fetch error
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -27,7 +26,6 @@ const Reviews = () => {
       });
 
     return () => {
-      //  console.log('Unmounting phase, aborting...');
       api.abortFetch();
     };
   }, [id]);
@@ -38,7 +36,7 @@ const Reviews = () => {
       {status === STATUS.PENDING && <Loading />}
       {status === STATUS.RESOLVED &&
         (!reviews.length ? (
-          <p>No reviews yet</p>
+          <p>We don't have any reviews for this movie.</p>
         ) : (
           <ul>
             {reviews.map(({ id, author, content }) => {

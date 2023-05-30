@@ -1,6 +1,6 @@
-
+import Div from "./styled";
 
 const Loading = () => {
-  return <div>Loading...</div>;
+  return <Div>Loading...</Div>;
 }
 export default Loading;

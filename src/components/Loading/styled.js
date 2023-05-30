@@ -1,13 +1,13 @@
-//import styled from 'styled-components';
+import styled from 'styled-components';
 
-/* const Err = styled.p`
+const Div = styled.div`
   margin-top: 38px;
   margin-left: auto;
   margin-right: auto;
-  color: red;
+  color: orangered;
   font-size: 24px;
   font-weight: 700;
 `;
 
-export default Err;
- */
+export default Div;
+

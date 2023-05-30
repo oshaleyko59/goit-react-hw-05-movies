@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom'; //, useLocation
+import { useSearchParams } from 'react-router-dom';
 import api from 'service/fetchTheMovieDb';
 import MovieList from 'components/moviesList/MoviesList';
 import Error from 'components/Error/Error';
@@ -16,7 +16,6 @@ const Movies = () => {
   const [error, setError] = useState(null);
 
   const fetchData = useCallback((query) => {
-    console.log('fetchD=', query);
     if (query === '') return;
 
     setStatus(STATUS.PENDING);
@@ -51,7 +50,7 @@ const Movies = () => {
     return () => {
       api.abortFetch();
     };
-  }, []);
+  }, [fetchData, query]);
 
   return (
     <div>

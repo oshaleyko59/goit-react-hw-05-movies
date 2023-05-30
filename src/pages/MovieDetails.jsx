@@ -41,7 +41,7 @@ const MovieDetails = () => {
       {status === STATUS.PENDING && <Loading />}
       {status === STATUS.RESOLVED && (
         <div>
-          <Link to={backLocation.current}>Go back</Link>
+          <Link to={backLocation.current}>{"\u2190"} Go back</Link>
           <MovieInfo movie={movie} />
           <h4>Additional information</h4>
           <ul>
@@ -63,5 +63,3 @@ const MovieDetails = () => {
 
 export default MovieDetails;
 
-
-//          {location.state && <Link to={location.state.from}>Go back</Link>}

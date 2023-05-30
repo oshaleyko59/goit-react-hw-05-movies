@@ -9,7 +9,6 @@ const Cast = () => {
   const { id } = useParams();
   const [status, setStatus] = useState(STATUS.IDLE);
   const [cast, setCast] = useState([]);
-  //for fetch error
   const [error, setError] = useState(null);
 
   useEffect(() => {

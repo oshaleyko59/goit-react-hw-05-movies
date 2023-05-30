@@ -1,9 +1,11 @@
 import { debounce } from 'lodash';
-import { useState,  useMemo } from 'react';
+import { useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { Input } from './styled';
 
-const DebouncedInput = ({ value, debouncedFunc }) => {
+const DebouncedInput = ({ value='', debouncedFunc }) => {
   const debouncedAction = useMemo(() => {
-    return debounce(debouncedFunc, 1000);
+    return debounce(debouncedFunc, 500);
   }, [debouncedFunc]);
 
   const [query, setQuery] = useState([value]);
@@ -14,8 +16,12 @@ const DebouncedInput = ({ value, debouncedFunc }) => {
     debouncedAction(query);
   };
 
-  console.log('dbInput');
-  return <input type="text" value={query} onChange={onChange} />;
+  return <Input type="text" value={query} onChange={onChange} />;
+};
+
+DebouncedInput.propTypes = {
+  value: PropTypes.string,
+  debouncedFunc: PropTypes.func
 };
 
 export default DebouncedInput;

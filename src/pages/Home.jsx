@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import api from 'service/fetchTheMovieDb';
 import MovieList from 'components/moviesList/MoviesList';
 import Error from 'components/Error/Error';
@@ -11,8 +11,7 @@ const Home = () => {
   const [error, setError] = useState(null);
 
   const fetchData = useCallback(() => {
-    console.log('fetch trending');
-    return () => {
+      console.log('fetch trending');
       setStatus(STATUS.PENDING);
       api
         .fetchTrendingMovies()
@@ -25,19 +24,14 @@ const Home = () => {
           setStatus(STATUS.REJECTED);
           setMovies([]);
         });
-    };
   }, []);
 
-/*   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
- */
   useEffect(() => {
-          fetchData();
-      return () => {
-        api.abortFetch();
-      };
-    }, [fetchData]);
+    fetchData();
+    return () => {
+      api.abortFetch();
+    };
+  }, [fetchData]);
 
   return (
     <div>
