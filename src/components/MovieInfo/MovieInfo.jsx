@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
+import { FlexRow } from 'common/styled';
 
 const MovieInfo = ({ movie }) => {
   const { overview, title, genres, vote_average, poster_path } = movie;
   const imgUrl = `https://image.tmdb.org/t/p/w342${poster_path}`;
 
   return (
-    <div>
+    <FlexRow>
       <div>
         {poster_path ? (
           <img src={imgUrl} alt="film poster" />
@@ -21,7 +22,7 @@ const MovieInfo = ({ movie }) => {
         <h3>Genres</h3>
         <p>{genres.map(genre => genre.name).join(' ')}</p>
       </div>
-    </div>
+    </FlexRow>
   );
 };
 

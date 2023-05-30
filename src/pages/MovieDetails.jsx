@@ -1,10 +1,12 @@
-import { useParams, useLocation, Outlet, Link } from 'react-router-dom';
+import { useParams, useLocation, Outlet } from 'react-router-dom';
 import { useEffect, useState, useRef, Suspense } from 'react';
 import MovieInfo from 'components/MovieInfo/MovieInfo';
 import Error from 'components/Error/Error';
 import Loading from 'components/Loading/Loading';
+import Additional from 'components/Additional/Additional';
 import api from 'service/fetchTheMovieDb';
 import { STATUS } from 'common/constants';
+import { FlexColumn, GoBack } from 'common/styled';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
@@ -40,19 +42,13 @@ const MovieDetails = () => {
       {status === STATUS.REJECTED && <Error msg={error.message} />}
       {status === STATUS.PENDING && <Loading />}
       {status === STATUS.RESOLVED && (
-        <div>
-          <Link to={backLocation.current}>{"\u2190"} Go back</Link>
-          <MovieInfo movie={movie} />
-          <h4>Additional information</h4>
-          <ul>
-            <li>
-              <Link to="cast">Cast</Link>
-            </li>
-            <li>
-              <Link to="reviews">Reviews</Link>
-            </li>
-          </ul>
-        </div>
+        <>
+          <FlexColumn>
+            <GoBack to={backLocation.current}>{'\u2190'} Go back</GoBack>
+            <MovieInfo movie={movie} />
+          </FlexColumn>
+          <Additional />
+        </>
       )}
       <Suspense fallback={<Loading />}>
         <Outlet />
@@ -62,4 +58,3 @@ const MovieDetails = () => {
 };
 
 export default MovieDetails;
-

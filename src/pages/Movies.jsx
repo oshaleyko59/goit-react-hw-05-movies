@@ -15,11 +15,10 @@ const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback((query) => {
+  const fetchData = useCallback(() => {
     if (query === '') return;
 
     setStatus(STATUS.PENDING);
-    console.log('fetching movies...', query);
     api
       .fetchSearchMovies(query)
       .then(({ results }) => {
@@ -31,7 +30,7 @@ const Movies = () => {
         setStatus(STATUS.REJECTED);
         setMovies([]);
       });
-  }, []);
+  }, [query]);
 
   const onChange = query => {
     api.abortFetch();
@@ -42,15 +41,14 @@ const Movies = () => {
     }
 
     setSearchParams({ query });
-    fetchData(query);
   };
 
   useEffect(() => {
-    fetchData(query);
+    fetchData();
     return () => {
       api.abortFetch();
     };
-  }, [fetchData, query]);
+  }, [fetchData]);
 
   return (
     <div>

@@ -3,7 +3,7 @@ import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from './styled';
 
-const DebouncedInput = ({ value='', debouncedFunc }) => {
+const DebouncedInput = ({ value = '', debouncedFunc }) => {
   const debouncedAction = useMemo(() => {
     return debounce(debouncedFunc, 500);
   }, [debouncedFunc]);

@@ -11,7 +11,6 @@ const Home = () => {
   const [error, setError] = useState(null);
 
   const fetchData = useCallback(() => {
-      console.log('fetch trending');
       setStatus(STATUS.PENDING);
       api
         .fetchTrendingMovies()
