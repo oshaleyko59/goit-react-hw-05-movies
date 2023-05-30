@@ -1,77 +1,71 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom'; //, useLocation
 import api from 'service/fetchTheMovieDb';
 import MovieList from 'components/moviesList/MoviesList';
 import Error from 'components/Error/Error';
 import Loading from 'components/Loading/Loading';
 import { STATUS } from 'common/constants';
+import DebouncedInput from 'components/DebouncedInput/DebouncedInput';
 
 const Movies = () => {
-  // const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
 
-  //to use for render //TODO: same as Home
   const [status, setStatus] = useState(STATUS.IDLE);
   const [movies, setMovies] = useState([]);
-  //for fetch error
   const [error, setError] = useState(null);
 
-  const handleSearchChange = e => {
-    const query = e.target.value;
+  const fetchData = useCallback((query) => {
+    console.log('fetchD=', query);
+    if (query === '') return;
+
+    setStatus(STATUS.PENDING);
+    console.log('fetching movies...', query);
+    api
+      .fetchSearchMovies(query)
+      .then(({ results }) => {
+        setMovies(results);
+        setStatus(STATUS.RESOLVED);
+      })
+      .catch(error => {
+        setError(error);
+        setStatus(STATUS.REJECTED);
+        setMovies([]);
+      });
+  }, []);
+
+  const onChange = query => {
+    api.abortFetch();
+    setStatus(STATUS.IDLE);
+
     if (query === '') {
       return setSearchParams({});
     }
 
     setSearchParams({ query });
+    fetchData(query);
   };
 
-  const fetchData = useMemo(
-    () => {
-    //  console.log('useMemo called', status);
-      return (() => {
-    //  console.log('fetchData called', status);
-      if (status !== STATUS.IDLE || query === '') return;
-
-      setStatus(STATUS.PENDING);
-      console.log('fetching movies...');
-      api
-        .fetchSearchMovies(query)
-        .then(({ results }) => {
-          setMovies(results);
-          setStatus(STATUS.RESOLVED);
-        })
-        .catch(error => {
-          setError(error);
-          setStatus(STATUS.REJECTED);
-          setMovies([]);
-        });
-    })},
-    [query, status]
-  );
-
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  useEffect(() => {
-    //console.log('Mounted...');
-        return () => {
-       //   console.log('Unmounting...');
-          api.abortFetch();
-        };
+    fetchData(query);
+    return () => {
+      api.abortFetch();
+    };
   }, []);
 
   return (
     <div>
-      <input type="text" value={query} onChange={handleSearchChange}></input>
+      <DebouncedInput value={query} debouncedFunc={onChange}></DebouncedInput>
       {status === STATUS.REJECTED && <Error msg={error.message} />}
-      {status === STATUS.RESOLVED && <MovieList movies={movies} />}
+      {status === STATUS.RESOLVED &&
+        (!movies.length ? (
+          <p>Nothing found for your search...</p>
+        ) : (
+          <MovieList movies={movies} />
+        ))}
       {status === STATUS.PENDING && <Loading />}
     </div>
   );
 };
 
 export default Movies;
-
-

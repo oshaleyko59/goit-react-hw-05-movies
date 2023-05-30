@@ -27,7 +27,6 @@ const Cast = () => {
       });
 
     return () => {
-     // console.log('Unmounting phase, aborting...');
       api.abortFetch();
     };
   }, [id]);
@@ -36,7 +35,9 @@ const Cast = () => {
     <div>
       {status === STATUS.REJECTED && <Error msg={error.message} />}
       {status === STATUS.PENDING && <Loading />}
-      {status === STATUS.RESOLVED && (
+      {status === STATUS.RESOLVED && (!cast.length ? (
+          <p>Sorry, there is no information about the cast...</p>
+        ) : (
         <ul>
           {cast.map(({ id, character, name, profile_path }) => {
             const imgUrl = `https://image.tmdb.org/t/p/w92${profile_path}`;
@@ -55,9 +56,9 @@ const Cast = () => {
             );
           })}
         </ul>
-      )}
+      ))}
     </div>
   );
 };
-// {status !== status.RESOLVED && <MovieList movies={movies} />}
+
 export default Cast;

@@ -4,17 +4,14 @@ const MovieInfo = ({ movie }) => {
   const { overview, title, genres, vote_average, poster_path } = movie;
   const imgUrl = `https://image.tmdb.org/t/p/w342${poster_path}`;
 
-  const handleGoBack = () => {
-    console.log('TODO: arrow go back');
-  };
-
   return (
     <div>
-      <button type="button" onClick={handleGoBack}>
-        {'<- Go back'}
-      </button>
       <div>
-        <img src={imgUrl} alt="film poster" />
+        {poster_path ? (
+          <img src={imgUrl} alt="film poster" />
+        ) : (
+          <div>No poster</div>
+        )}
       </div>
       <div>
         <h2>{title}</h2>
@@ -28,14 +25,14 @@ const MovieInfo = ({ movie }) => {
   );
 };
 
-//TODO: all except id may ne missing
 MovieInfo.propTypes = {
   movie: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    overview: PropTypes.string,
-    title: PropTypes.string,
-    genres: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
-    vote_average: PropTypes.number,
+    overview: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    genres: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string }))
+      .isRequired,
+    vote_average: PropTypes.number.isRequired,
     poster_path: PropTypes.string,
   }),
 };

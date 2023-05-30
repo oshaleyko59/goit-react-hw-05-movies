@@ -27,7 +27,7 @@ const Reviews = () => {
       });
 
     return () => {
-    //  console.log('Unmounting phase, aborting...');
+      //  console.log('Unmounting phase, aborting...');
       api.abortFetch();
     };
   }, [id]);
@@ -36,18 +36,21 @@ const Reviews = () => {
     <div>
       {status === STATUS.REJECTED && <Error msg={error.message} />}
       {status === STATUS.PENDING && <Loading />}
-      {status === STATUS.RESOLVED && (
-        <ul>
-          {reviews.map(({ id, author, content }) => {
-            return (
-              <li key={id}>
-                <div>Author: {author}</div>
-                <div>{content}</div>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      {status === STATUS.RESOLVED &&
+        (!reviews.length ? (
+          <p>No reviews yet</p>
+        ) : (
+          <ul>
+            {reviews.map(({ id, author, content }) => {
+              return (
+                <li key={id}>
+                  <div>Author: {author}</div>
+                  <div>{content}</div>
+                </li>
+              );
+            })}
+          </ul>
+        ))}
     </div>
   );
 };

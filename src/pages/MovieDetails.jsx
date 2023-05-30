@@ -1,11 +1,10 @@
-import { useParams, Outlet, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useParams, useLocation, Outlet, Link } from 'react-router-dom';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import MovieInfo from 'components/MovieInfo/MovieInfo';
 import Error from 'components/Error/Error';
 import Loading from 'components/Loading/Loading';
 import api from 'service/fetchTheMovieDb';
 import { STATUS } from 'common/constants';
-
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
@@ -13,6 +12,9 @@ const MovieDetails = () => {
 
   const [status, setStatus] = useState(STATUS.IDLE);
   const { id } = useParams();
+
+  const location = useLocation();
+  const backLocation = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
     setStatus(STATUS.PENDING);
@@ -29,7 +31,6 @@ const MovieDetails = () => {
       });
 
     return () => {
-      //console.log('Unmounting phase, aborting...');
       api.abortFetch();
     };
   }, [id]);
@@ -40,6 +41,7 @@ const MovieDetails = () => {
       {status === STATUS.PENDING && <Loading />}
       {status === STATUS.RESOLVED && (
         <div>
+          <Link to={backLocation.current}>Go back</Link>
           <MovieInfo movie={movie} />
           <h4>Additional information</h4>
           <ul>
@@ -52,9 +54,14 @@ const MovieDetails = () => {
           </ul>
         </div>
       )}
-      <Outlet />
+      <Suspense fallback={<Loading />}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };
 
 export default MovieDetails;
+
+
+//          {location.state && <Link to={location.state.from}>Go back</Link>}
